@@ -2,7 +2,7 @@
 # @Date:   2022-03-11T15:39:02+01:00
 # @Email:  marcelmaluta@gmail.com
 # @Last modified by:   Marcel Maluta
-# @Last modified time: 2022-03-27T19:19:30+02:00
+# @Last modified time: 2022-05-08T10:36:43+02:00
 
 
 
@@ -73,10 +73,15 @@ class ChatFrame(wx.Frame):
             if(len(dialog.GetValue()) != 0):
                 print(f"Name: {dialog.GetValue()}")
                 self.name = dialog.GetValue()
-                self.sock = initializeSocket(self.chat)
             else:
                 print("Du musst einen Namen eingeben!")
                 self.Destroy()
+        else:
+            self.Destroy()
+
+        ip_dialog = wx.TextEntryDialog(self, "Server IP", value="127.0.0.1")
+        if ip_dialog.ShowModal() == wx.ID_OK:
+            self.sock = initializeSocket(self.chat, ip_dialog.GetValue())
         else:
             self.Destroy()
 
@@ -88,8 +93,8 @@ class ChatFrame(wx.Frame):
         self.sock.send(message.encode())
         self.textctrl.SetValue("")
 
-def initializeSocket(chat):
-    SERVER_HOST = "127.0.0.1"
+def initializeSocket(chat, ip):
+    SERVER_HOST = ip
     SERVER_PORT = 5002
 
     s = socket.socket()
