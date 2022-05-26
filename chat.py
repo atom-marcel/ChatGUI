@@ -2,7 +2,7 @@
 # @Date:   2022-03-11T15:39:02+01:00
 # @Email:  marcelmaluta@gmail.com
 # @Last modified by:   Marcel Maluta
-# @Last modified time: 2022-05-08T10:36:43+02:00
+# @Last modified time: 2022-05-26T11:19:11+02:00
 
 
 
@@ -20,6 +20,7 @@ class ChatPanel(wx.lib.scrolledpanel.ScrolledPanel):
         self.text = ""
         self.textbox = self.addMessage("")
         self.SetSizer(self.main_sizer)
+        self.SetBackgroundColour(wx.WHITE)
 
     def addText(self, message):
         self.text += f"{message}\n"
@@ -89,7 +90,7 @@ class ChatFrame(wx.Frame):
         message = self.textctrl.GetValue()
         seperator_token = "<SEP>"
         date_now = datetime.now().strftime("%d.%m.%Y %H:%M:%S")
-        message = f"[{date_now}] {self.name}{seperator_token}{message}"
+        message = f"[{date_now}] [{self.name}] {message}"
         self.sock.send(message.encode())
         self.textctrl.SetValue("")
 
